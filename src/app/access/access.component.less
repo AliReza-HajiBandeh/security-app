@@ -1,0 +1,145 @@
+@screen-sm: ~"screen and (min-width: 576px)";
+@screen-md: ~"screen and (min-width: 768px)";
+@screen-lg: ~"screen and (min-width: 992px)";
+@screen-xl: ~"screen and (min-width: 1200px)";
+@border-radius: .5rem;
+
+:host {
+  display: block;
+}
+
+.access-layout {
+  z-index: 2;
+  // min-height: 400px;
+  background-color: #004361;
+
+  &::before {
+    z-index: -1;
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0.10;
+    background-repeat: repeat;
+    // background-size: cover;
+    background-image: url('/assets/img/access/justice.svg');
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem 4rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: @border-radius;
+  overflow: auto;
+
+  @media @screen-lg {
+    border-radius: unset;
+    border-top-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+  }
+
+  .content-header {
+    padding: 1rem 0;
+    text-align: center;
+    color: #0c6db6;
+  }
+
+  .content-body {}
+}
+
+#presentation {
+  background-color: #4154f1a1;
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  align-items: center;
+  border-radius: @border-radius;
+
+  @media @screen-lg {
+    border-radius: unset;
+    border-top-left-radius: @border-radius;
+    border-bottom-left-radius: @border-radius;
+  }
+
+  a {
+    color: white;
+  }
+
+  #seo-link {
+    border-radius: .5rem;
+    overflow: hidden;
+    padding: .8rem 2rem 1rem 2rem;
+    text-align: center;
+
+    .seo-title {
+      margin: 0;
+      color: white;
+    }
+
+    img {
+      width: 6rem;
+      height: 5rem;
+    }
+  }
+
+  .external-links {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+
+    &>a {
+      width: 6rem;
+      height: 6rem;
+      margin: 0 1rem;
+      text-align: center;
+      color: #b9c5ff;
+
+      &:hover {
+        color: white;
+      }
+
+      &>div {
+        background-color: #3c8fd06e;
+        border-color: blue;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        transition: .2s;
+        margin-bottom: 1rem;
+
+        &:hover {
+          color: white;
+          background-color: #7dbae9;
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .presentation-footer {
+    text-align: center;
+    margin-top: auto;
+
+    .copyright {
+      font-size: 85%;
+      color: blanchedalmond;
+
+      a {
+        color: #c6caff;
+      }
+    }
+  }
+}

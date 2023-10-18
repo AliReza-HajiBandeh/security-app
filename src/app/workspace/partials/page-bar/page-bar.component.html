@@ -1,0 +1,50 @@
+<div class="start">
+    <nz-breadcrumb *ngIf="!compactView else pageTitleTemplate" [nzSeparator]="breadcrumbSeperator">
+        <nz-breadcrumb-item class="breadcrumb-item-home">
+            <a [routerLink]="['profile']">
+                <i-feather name="home"></i-feather>
+            </a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngFor="let i of (page$ | async)?.breadcrumbItems">
+            <a>{{i}}</a>
+        </nz-breadcrumb-item>
+
+        <ng-template #breadcrumbSeperator>
+            <i-feather name="chevron-left"></i-feather>
+        </ng-template>
+    </nz-breadcrumb>
+
+    <ng-template #pageTitleTemplate>
+        <!--        <h5 class="page-title">{{(page | async).title}}</h5>-->
+    </ng-template>
+</div>
+
+<div class="end">
+    <!-- <button nz-button nzType="default">
+        ایجاد
+    </button> -->
+    <ng-container *ngIf="pageActions$ | async as pageActions">
+        <ng-container *ngFor="let pageAction of pageActions">
+            <ng-container *ngIf="pageAction.hidden != true">
+                <button nz-button
+                        [nzType]="$any(pageAction)?.props?.nzType ? $any(pageAction)?.props?.nzType : 'primary'"
+                        *ngIf="getPageActionType(pageAction) === 'button'"
+                        [disabled]="isDisabledAction(pageAction)"
+                        (click)="$any(pageAction)?.click ? $any(pageAction)?.click($event) : ''">
+                    <i-feather [name]="$any(pageAction)?.props?.icon || null"></i-feather>&nbsp;
+                    {{$any(pageAction).text}}
+                </button>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+
+<!--    <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="moreActionsDropdown" nzTrigger="click">-->
+<!--        <i-feather name="more-vertical"></i-feather>-->
+<!--    </button>-->
+<!--    <nz-dropdown-menu #moreActionsDropdown="nzDropdownMenu">-->
+<!--        <ul nz-menu nzSelectable>-->
+<!--            &lt;!&ndash; <li nz-menu-item><i nz-icon nzType="reload" nzTheme="outline"></i>بارگذاری مجدد اطلاعات</li> &ndash;&gt;-->
+<!--            <li nz-menu-item><i nz-icon nzType="bulb" nzTheme="outline"></i>راهنما</li>-->
+<!--        </ul>-->
+<!--    </nz-dropdown-menu>-->
+</div>

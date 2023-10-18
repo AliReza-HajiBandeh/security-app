@@ -1,0 +1,38 @@
+<nz-card nzType="inner" nzTitle="{{'changePassword' | translator}}">
+  <form #form="ngForm" nz-form nzLayout="vertical">
+    <div nz-row nzGutter="24">
+      <div nz-col nzMd="4" nzSm="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label nzRequired>رمز ورود فعلی</nz-form-label>
+          <nz-form-control>
+            <input rbcInput nz-input name="currentPassword" [(ngModel)]="model.currentPassword" required minlength="5"
+                   maxlength="15" type="password">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="4" nzSm="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label nzRequired>رمز ورود جدید</nz-form-label>
+          <nz-form-control>
+            <input rbcInput nz-input name="newPassword" [(ngModel)]="model.newPassword" required minlength="5"
+                   maxlength="15" type="password">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="4" nzSm="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label nzRequired>تکرار رمز ورود جدید</nz-form-label>
+          <nz-form-control>
+            <input rbcInput [rbcEqualWith]="model.newPassword" nz-input name="confirmNewPassword"
+                   [(ngModel)]="model.confirmNewPassword" required minlength="5" maxlength="15" type="password">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <br>
+    <button nz-button nzType="primary" class="{{form.invalid ? 'disabled' : ''}}" type="submit"
+            [disabled]="form.invalid" (click)="submit()">
+      <i-feather name="save"></i-feather>&nbsp;{{'submit' | translator}}
+    </button>
+  </form>
+</nz-card>

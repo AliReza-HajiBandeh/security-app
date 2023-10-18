@@ -1,0 +1,40 @@
+<js-layout [includeViewportPanels]="true">
+    <js-panel class="top-panel" position="top" [over]="false" placement="viewport" stretch="none" [size]="120">
+        <header class="j-component-bg">
+            <app-workspace-app-bar
+                                   [compactView]="smallDevice"
+                                   (humburgerClick)="menuPanel.expanded = !menuPanel.expanded"
+                                   (messagesClick)="showAsideMessages = !showAsideMessages">
+            </app-workspace-app-bar>
+            <app-workspace-page-bar [compactView]="smallDevice">
+
+            </app-workspace-page-bar>
+        </header>
+    </js-panel>
+
+    <js-panel class="menu-panel"
+              position="start"
+              placement="viewport"
+              [zOrder]= 2
+              [size]="menuPanel.expanded || smallDevice ? 250 : 80"
+              [over]="smallDevice"
+              [show]="!smallDevice || menuPanel.expanded"
+              [backdrop]="smallDevice && menuPanel.expanded"
+              (backdropClick)="menuPanel.expanded = false">
+        <app-workspace-aside-menu [theme]="menuPanel.theme"
+                                  [expanded]="menuPanel.expanded"
+                                  (expanderClick)="_onExpanderClick()">
+        </app-workspace-aside-menu>
+    </js-panel>
+
+    <js-panel class="messages-panel" position="end" [show]="showAsideMessages" stretch="none">
+        <app-workspace-aside-messages>
+        </app-workspace-aside-messages>
+    </js-panel>
+
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</js-layout>
+
+<nz-back-top></nz-back-top>

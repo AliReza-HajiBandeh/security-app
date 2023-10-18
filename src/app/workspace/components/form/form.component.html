@@ -1,0 +1,77 @@
+<form nz-form [formGroup]="formSchema.form" nzLayout="vertical">
+  <ng-template #cardHeader>
+    <div style="font-size: 16px;">
+          {{(schema === logics.crud ? 'basicInfo' : 'searchParams') | translator}} {{name | translator}}
+      <div class="divBtn" >
+        <ng-container *ngIf="schema === logics.crud">
+          <button style="margin-left: 1rem" type="button" nz-button nzType="default" routerLink="../..">
+            <i-feather name="x"></i-feather>&nbsp;{{'cancel' | translator}}
+          </button>
+          <button nz-button nzType="primary" class="{{formSchema.form.invalid ? 'disabled' : ''}}" type="submit" [disabled]="formSchema.form.invalid" (click)="submit()">
+            <i-feather name="{{operation ===  operations.C ? 'save' : 'edit'}}"></i-feather>&nbsp;{{'submit' | translator}}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+  <nz-card nzType="inner" [nzTitle]="cardHeader">
+    <div nz-row nzGutter="24">
+      <ng-container *ngFor="let element of formSchema.elements; let i = index">
+        <div *ngIf="showElement(element)" nz-col nzMd="{{schema === logics.lookup ? 6 : 4}}" nzSm="12" nzXs="24">
+          <nz-form-item>
+            <nz-form-label
+              [nzRequired]="schema === logics.crud && element?.required !== false">{{(element?.label ? element?.label : element.name) | translator}}</nz-form-label>
+            <nz-form-control [ngSwitch]="element?.type">
+              <nz-input-group *ngSwitchCase="'text'" [nzPrefix]="template" class="{{!!element?.readonly && schema === logics.crud ? ' readOnly' : ''}}">
+                <input class="{{element?.dir === 'ltr' ? 'ltr' : 'rtl'}}" rbcInput nz-input type="text" [readOnly]="!!element?.readonly && schema === logics.crud"
+                       [formControlName]="element.name">
+              </nz-input-group>
+              <ng-template #template>
+                <i-feather *ngIf="!!element?.readonly && schema === logics.crud" name="lock"></i-feather>
+              </ng-template>
+              <ng-container *ngIf="element.options">
+                <nz-select *ngSwitchCase="'select'" [nzSuffixIcon]="!!element?.readonly ? template : null" class="{{!!element?.readonly ? 'readOnly' : ''}}" [nzDisabled]="!!element?.readonly" [formControlName]="element.name" [nzOptions]="element.options" (ngModelChange)="change($event, element?.change)">
+                </nz-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'lookup'">
+                <rbc-lookup [readonly]="!!element?.readonly || (schema === logics.lookup && selectedSubsystem)" [required]="!!element?.required"
+                            [multiple]="!!element?.multiple" (ngModelChange)="input($event, element?.input)" [disabled]="!selectedSubsystem && names.user !== name"
+                            [formControl]="formSchema.controls[element.name]" [subsystem]="selectedSubsystem" [title]="element?.name">
+                  <ng-container>
+                    <rbc-form [params]="{name: paramName(element.name), schema: logics.lookup}" [subsystem]="selectedSubsystem" (subsystemChange)="assign('subsystem', $event)"
+                              (action)="search($event, paramName(element.name))" (reset)="table.params = {name: paramName(element.name), schema: logics.lookup}"></rbc-form>
+                    <rbc-table #table (selectionChange)="assign(element.name, $event)" [multiple]="!!element?.multiple"
+                               [params]="{name: paramName(element.name), schema: logics.lookup}"
+                               [model]="searchModel" [selection]="formSchema.form.value[element.name]"></rbc-table>
+                  </ng-container>
+                </rbc-lookup>
+              </ng-container>
+                <rbc-subsystem *ngSwitchCase="'subsystem'" [required]="!!element?.required" [disabled]="!!element?.disabled || (name === names.action && schema === logics.crud)"  [formControlName]="element.name" (change)="resetRelations()" (ngModelChange)="selectSubsystem($event)"></rbc-subsystem>
+              <textarea *ngSwitchCase="'textarea'" class="{{element?.dir === 'ltr' ? 'ltr' : 'rtl'}}" rbcInput nz-input [formControlName]="element.name"></textarea>
+              <small *ngIf="formSchema.form.get(element.name)?.errors && formSchema.form.get(element.name)?.dirty"
+                     class="j-danger">
+                {{error(formSchema.form.get(element.name)?.errors)}}
+              </small>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </ng-container>
+    </div>
+    <ng-container  *ngFor="let element of formSchema.elements; let i = index">
+      <ng-container *ngIf="element?.type === 'lookup' && formSchema.form.get(element.name)?.value">
+        <br>
+        <br>
+        <div class="divTable">
+          <nz-divider nzOrientation="left" nzType="horizontal" nzText="{{(element?.label ? element?.label : element.name) | translator}}"></nz-divider>
+          <rbc-table [multiple]="true" [params]="{name: paramName(element.name), schema: logics.crud}" [selection]="formSchema.form.value[element.name]" (selectionChange)="assign(element.name, $event)"></rbc-table>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="schema !== logics.crud">
+      <br>
+      <button nz-button nzType="default" class="searchBtn" [disabled]="formSchema.form.invalid" (click)="submit()">
+        <i-feather name="search"></i-feather>&nbsp;{{'find' | translator}}
+      </button>
+    </ng-container>
+  </nz-card>
+</form>

@@ -1,0 +1,178 @@
+<form nz-form (submit)="onFormSubmit()" nzLayout="vertical" #frm="ngForm">
+    <fieldset [disabled]="loading ?? null">
+        <h4 class="title">
+            <i-feather name="user-plus"></i-feather>
+            ایجاد حساب کاربری
+        </h4>
+        <p>
+            لطفا مشخصات خود را وارد کنید.
+        </p>
+
+        <div nz-row nzGutter=16>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzFor="person-type" nzRequired=true>نوع شخص</nz-form-label>
+                    <nz-form-control>
+                        <nz-select id="person-type" name="person-type" [(ngModel)]="dto.isReal">
+                            <nz-option [nzValue]="true" nzLabel="حقیقی"></nz-option>
+                            <nz-option [nzValue]="false" nzLabel="حقوقی"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <ng-template [ngIf]="dto.isReal" [ngIfElse]="legalPersonTemplate">
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzFor="nationalCode" nzRequired=true>کد ملی</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group>
+                                <input id="nationalCode" name="nationalCode" type="text" nz-input rbcInput
+                                       [(ngModel)]="dto.nationalCode"
+                                       required rbcNationalCodeValidator />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzFor="firstname" nzRequired=true>نام </nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group>
+                                <input id="firstname" name="firstName" type="text" nz-input rbcInput
+                                       [(ngModel)]="dto.firstName"
+                                       required minlength="3" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzFor="lastname" nzRequired=true>نام خانوادگی</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group>
+                                <input id="lastname" name="lastName" type="text" nz-input rbcInput
+                                       [(ngModel)]="dto.lastName"
+                                       required minlength="3" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-template>
+
+            <ng-template #legalPersonTemplate>
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzFor="name" nzRequired=true>نام سازمان</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group>
+                                <input id="name" name="name" type="text" nz-input rbcInput [(ngModel)]="dto.name"
+                                       required />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzFor="registerNumber" nzRequired=true>شماره ثبت</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group>
+                                <input id="registerNumber" name="registerNumber" type="text" nz-input rbcInput
+                                       [(ngModel)]="dto.registerNumber"
+                                       required />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzFor="nationalId" nzRequired=true>شناسه ملی</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group>
+                                <input id="nationalId" name="nationalId" type="text" nz-input rbcInput
+                                       [(ngModel)]="dto.nationalId" [rbcExactLength]="11"
+                                       required />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-template>
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzFor="username" nzRequired=true>نام کاربری</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group>
+                            <input id="username"
+                                   name="username"
+                                   type="text"
+                                   nz-input
+                                   rbcInput
+                                   [(ngModel)]="dto.username"
+                                   minlength="5"
+                                   required />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzFor="mobileNumber" nzRequired=true nzTooltipTitle="برای مثال 09128881234">
+                        <span *ngIf="!dto.isReal"> (نماینده شرکت) </span>
+                        &nbsp;تلفن همراه&nbsp;
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group>
+                            <input id="mobileNumber" name="mobileNumber" type="text" nz-input rbcInput
+                                   [(ngModel)]="dto.mobileNumber" required rbcMobileValidator />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-form-label nzFor="password" nzRequired=true>کلمه عبور</nz-form-label>
+                        <nz-input-group>
+                            <input id="password" name="password" type="password" nz-input rbcInput
+                                   [(ngModel)]="dto.password" minlength="5"
+                                   autocomplete="new-password" required />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-form-label nzFor="password-confirm" nzRequired=true>تکرار کلمه عبور</nz-form-label>
+                        <nz-input-group>
+                            <input id="password-confirm" name="passwordConfirm" type="password" nz-input rbcInput
+                                   [(ngModel)]="passwordConfirm" autocomplete="new-password" required
+                                   [rbcEqualWith]="dto.password" inequalityMessage="تکرار کلمه عبور اشتباه است" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <label nz-checkbox [(ngModel)]="agreeWithTerms" name="terms">شرایط را خوانده‌ام و با آن موافقم.</label>
+        <button type="submit" nz-button nzType="primary" nzBlock=true
+                [disabled]="frm.invalid || !agreeWithTerms || loading">ایجاد
+            حساب کاربری</button>
+    </fieldset>
+
+</form>
+
+<div class="signup">
+    <p>
+        حساب کاربری دارید؟
+        <a [routerLink]="['..', 'signin']">وارد شوید</a>
+    </p>
+</div>

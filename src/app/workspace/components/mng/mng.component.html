@@ -1,0 +1,5 @@
+<rbc-form [params]="params" (action)="search($event)" (confChange)="confChange()" (reset)="confChange()"></rbc-form>
+<br>
+<nz-card nzType="inner">
+  <rbc-table [multiple]="false" [params]="params" [model]="model"></rbc-table>
+</nz-card>

@@ -1,0 +1,4 @@
+<nz-select name="subsystem" class="{{readonly ? 'readOnly' : ''}}" [(ngModel)]="value" nzMode="default" (change)="subsystemChange(this.value)" [disabled]="disabled || readonly" [required]="required" (ngModelChange)="subsystemChange($event)">
+  <nz-option *ngFor="let dataItem of subsystems; let i = index" [nzLabel]="dataItem.title"
+             [nzValue]="dataItem.id"></nz-option>
+</nz-select>

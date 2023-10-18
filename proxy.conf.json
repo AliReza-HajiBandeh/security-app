@@ -1,0 +1,6 @@
+{
+    "/api/security": {
+        "target": "http://172.30.85.6:8080",
+        "secure": false
+    }
+}

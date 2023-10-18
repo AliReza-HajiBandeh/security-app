@@ -1,0 +1,58 @@
+<app-access-layout-2 [presentation]="presentationTemplate" class="access-layout">
+    <div class="content app-scrollbar">
+        <div class="content-header">
+            <h3 class="mb-4 j-primary">سامانه مدیریت کاربران</h3>
+        </div>
+        <div class="content-body">
+            <div >
+                <router-outlet #outlet="outlet"></router-outlet>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #presentationTemplate>
+         <div id="presentation">
+            <a id="seo-link" href="https://www.seo.ir" target="_blank">
+                <img src="assets/img/seo-white.svg">
+                <h5 class="seo-title">
+                    سازمان بورس و اوراق بهادار
+                    <br>
+                    <span style="line-height: 2.6;display: inline-block;">Securities & Exchange Organization</span>
+                </h5>
+            </a>
+
+            <div class="external-links">
+                <a target="_blank" href="https://shekayat.seo.ir/Downloads/UserGuide.pdf">
+                    <div>
+                        <i-feather name="help-circle"></i-feather>
+                    </div>
+                    <p>راهنمای کاربران</p>
+                </a>
+                <a target="_blank"
+                   href="https://dadshahr.seo.ir/">
+                    <div>
+                        <i-feather name="activity"></i-feather>
+                    </div>
+                    <p>اعلام ناهنجاری</p>
+                </a>
+                <a target="_blank" href="https://shekayat.seo.ir/">
+                    <div>
+                        <i-feather name="corner-up-left"></i-feather>
+                    </div>
+                    <p>سامانه قدیمی</p>
+                </a>
+            </div>
+
+            <div class="presentation-footer">
+                <p class="copyright">
+                    کلیه حقوق سامانه متعلق به
+                  <a href="https://rayanbourse.ir/fa/" target="_blank">شرکت رایان بورس</a>
+                    می‌باشد.
+                    <br>
+
+                    نسخه 1 (مهر ۱۴۰۰)
+                </p>
+            </div>
+        </div>
+    </ng-template>
+</app-access-layout-2>

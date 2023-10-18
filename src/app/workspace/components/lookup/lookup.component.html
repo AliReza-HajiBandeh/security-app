@@ -1,0 +1,19 @@
+<div class="divInput">
+  <input type="text" readonly nz-input placeholder="{{'assign' | translator}}">
+  <button type="button" class="{{readonly || disabled ? 'disabled' : ''}}" [disabled]="readonly || disabled" (click)="modalChange(true)" nz-button nzType="primary">
+    <i-feather name="plus"></i-feather>
+  </button>
+</div>
+<nz-modal *ngIf="modal" [nzTitle]="modalTitle"
+          [nzVisible]="true" (nzOnCancel)="modalChange(false)"
+          [(nzVisible)]="modal" [nzFooter]="null" nzCentered [nzWidth]="1300"
+          [nzOkLoading]="true">
+  <ng-template #modalTitle>
+    {{'assign' | translator}} {{title | translator}}&nbsp;&nbsp;
+    <small style="color: #999999; font-size: 14px">({{'subsystem' | translator}} {{subsystem?.title}})</small>
+  </ng-template>
+  <ng-container *nzModalContent>
+    <ng-content></ng-content>
+  </ng-container>
+</nz-modal>
+

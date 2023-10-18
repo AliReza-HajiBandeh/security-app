@@ -1,0 +1,54 @@
+@screen-sm: ~"screen and (min-width: 576px)";
+@screen-md: ~"screen and (min-width: 768px)";
+@screen-lg: ~"screen and (min-width: 992px)";
+@screen-xl: ~"screen and (min-width: 1200px)";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2rem;
+}
+
+main {
+  display: flex;
+  max-height: 90vh;
+  min-height: 500px;
+
+  .content {
+    width: 80vw;
+    height: 100%;
+    overflow: hidden;
+    transition: width .2s;
+
+    @media @screen-lg {
+      width: 40vw;
+    }
+
+    @media @screen-xl {
+      width: 30vw;
+    }
+  }
+
+  .presentation {
+    display: none;
+    //height: 100%;
+    overflow: hidden;
+
+    @media @screen-lg {
+      display: block;
+      width: 40vw;
+      transition: width .2s;
+    }
+
+    @media @screen-xl {
+      width: 30vw;
+    }
+  }
+}

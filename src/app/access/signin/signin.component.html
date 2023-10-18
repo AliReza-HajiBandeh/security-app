@@ -1,0 +1,70 @@
+<form id="signInForm" *ngIf="!authenticated" #frm="ngForm" nz-form (submit)="onFormSubmit()" nzLayout="vertical">
+  <nz-form-item>
+    <nz-form-label nzFor="username" nzRequired=true>نام کاربری</nz-form-label>
+    <nz-form-control>
+      <nz-input-group [nzSuffix]="usernameSuffix">
+        <input nz-input rbcInput id="username" name="username" type="text" [(ngModel)]="username"
+               required dir="ltr" style="text-align: right" tabindex="1" pattern="^[a-zA-Z0-9$@-_.]+$" [disabled]="loading"/>
+        <ng-template #usernameSuffix>
+          <i-feather name="user"></i-feather>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <div class="password-form-label">
+      <nz-form-label nzFor="password" nzRequired=true>کلمه عبور</nz-form-label>
+      <a [routerLink]="['..', 'forget-password']" class="forget-password danger">فراموش کرده‌اید؟</a>
+    </div>
+    <nz-form-control>
+      <nz-input-group [nzSuffix]="passwordSuffix">
+        <input #pass nz-input rbcInput id="password" name="password" maxlength="30" type="password" [(ngModel)]="password" required
+               tabindex="2" [disabled]="loading"/>
+        <ng-template #passwordSuffix>
+          <i-feather name="lock"></i-feather>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="captcha" nzRequired=true>کد امنیتی</nz-form-label>
+    <nz-form-control>
+      <nz-input-group [nzAddOnAfter]="captchaSuffix">
+        <input id="captcha" name="captcha" type="text" nz-input rbcInput [(ngModel)]="captcha.value" required
+               maxlength="4" [rbcExactLength]="4"
+               tabindex="3">
+        <ng-template #captchaSuffix>
+          <img [src]="captchaImg" alt="">
+          <button nz-button nzType="text" (click)="reloadCaptcha()" type="button" nz-tooltip="بارگذاری مجدد"
+                  style="padding-left: 0;">
+            <i-feather name="refresh-cw"></i-feather>
+          </button>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <label nz-checkbox>من را به خاطر بسپار</label>
+
+  <button [disabled]="frm.invalid || loading" type="submit" nz-button nzType="primary" nzBlock=true>ورود</button>
+</form>
+<form nz-form *ngIf="authenticated" #subsystemForm="ngForm" nzLayout="vertical">
+  <p>
+    زیرسامانه ای که قصد پیکربندی و مجوز ورود به آن را دارید انتخاب نمایید.
+  </p>
+  <br>
+  <nz-form-item>
+    <nz-form-label
+      nzRequired>{{'subsystem' | translator}}</nz-form-label>
+    <nz-select name="subsystem" [(ngModel)]="activeSubsystemId" nzMode="default" required>
+      <nz-option *ngFor="let dataItem of userSubsystems; let i = index" [nzLabel]="dataItem.title"
+                 [nzValue]="dataItem.id"></nz-option>
+    </nz-select>
+  </nz-form-item>
+  <button style="width: 100%" nz-button nzType="primary" class="{{!activeSubsystemId ? 'disabled' : ''}}" type="submit"
+          [disabled]="!activeSubsystemId" (click)="setActiveSubsystem()">
+    {{'submit' | translator}}
+  </button>
+</form>
+

@@ -1,0 +1,99 @@
+<nz-table [nzData]="table.data" [nzTitle]="tHeader" nzShowSizeChanger [nzTotal]="table.total"
+          [(nzPageIndex)]="table.page" [(nzPageSize)]="table.size"
+          (nzPageIndexChange)="pageIndexChange($event)" (nzPageSizeChange)="pageSizeChange($event)"
+          [nzPageSizeOptions]="[10, 20, 30]" [nzShowPagination]="schema !== logic.crud" [nzFrontPagination]="schema === logic.crud"
+          nzNoResult="رکوردی موجود نیست">
+  <ng-template #tHeader>
+    <ng-container *ngIf="schema === logic.mng">
+      <ng-container *rbcClaim="name + '_create'">
+        <div  style="margin-right: -15px;">
+          <button class="primaryBtn" *ngIf="formConfig.operations.includes(operations.C)" style="margin-left: 15px" routerLink="crud/create"
+                  nz-button nzType="default">
+            <i-feather name="plus"></i-feather>&nbsp;
+            &nbsp;{{'create' | translator}}&nbsp;{{name | translator}}
+          </button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+  <thead>
+  <tr>
+    <th *ngIf="schema === logic.lookup" [(nzChecked)]="allSelected" [nzIndeterminate]="false"
+        (nzCheckedChange)="selectAll($event)"
+        [nzDisabled]="!multiple"></th>
+    <th>ردیف</th>
+    <th *ngFor="let th of map; let i = index">{{th.label | translator}}</th>
+    <th *ngIf="schema === logic.crud || schema === logic.mng"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of table.data; let i = index;">
+    <td *ngIf="schema === logic.lookup"
+        [nzChecked]="checked(item?.id)"
+        (nzCheckedChange)="select($event , item)"
+    ></td>
+    <td>{{(i + 1) + (table.page > 1 ? ((table.page - 1) * table.size) : 0)}}</td>
+    <td *ngFor="let td of map">
+      <ng-container [ngSwitch]="getType(item[td.name])">
+        <ng-container *ngSwitchCase="'array'">
+          <span *ngIf="!item[td.name]?.length">ندارد</span>
+          <ng-container *ngIf="item[td.name]?.length">
+            <button class="moreBtn" nzTrigger="click" nz-button nz-dropdown [nzDropdownMenu]="more">
+              <i-feather name="more-horizontal"></i-feather>
+            </button>
+            <nz-dropdown-menu #more="nzDropdownMenu">
+              <ul nz-menu style="max-height: 200px; overflow: auto">
+                <li *ngFor="let subItem of item[td.name]" nz-menu-item (click)="link(paramName(td.name), subItem?.id)">{{subItem?.title}}</li>
+              </ul>
+            </nz-dropdown-menu>
+          </ng-container>
+        </ng-container>
+        <span *ngSwitchCase="'object'">{{item[td.name]?.title ? item[td.name]?.title : '__'}}</span>
+        <ng-container *ngSwitchCase="'boolean'">
+          <span *ngIf="td.name === 'enabled'"
+                class="status {{item[td.name] ? 'active' : 'inactive'}}">{{'active' | translator}}</span>
+          <span *ngIf="td.name === 'real'">{{(item[td.name] ? 'realUser' : 'legalUser') | translator}}</span>
+        </ng-container>
+        <span *ngSwitchCase="'string'">{{item[td.name]}}</span>
+        <span *ngSwitchCase="'number'">{{item[td.name]?.toString() ? item[td.name]?.toString() : '__'}}</span>
+      </ng-container>
+    </td>
+    <td *ngIf="schema === logic.crud || schema === logic.mng">
+      <ng-container *ngIf="schema === logic.crud">
+        <button nz-button nzType="default"
+                nz-popconfirm
+                nzPopconfirmTitle="آیا از {{'delete' | translator}} این {{name | translator}} مطمئن هستید؟"
+                (nzOnConfirm)="unAssign(item?.id)"
+                nzOkType="danger" nzOkText="{{'yes' | translator}}" nzCancelText="{{'no' | translator}}"
+                nzPopconfirmPlacement="bottomLeft">
+          <i-feather name="x"></i-feather>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="schema === logic.mng">
+        <ng-container *rbcClaim="name + '_update'">
+          <button *ngIf="formConfig.operations.includes(operations.U)" nz-button nzType="default" nzShape="circle" class="tableBtn"
+                  routerLink="crud/{{item?.id}}">
+            <i-feather class="j-success" name="edit"></i-feather>
+          </button>
+        </ng-container>
+        <ng-container *rbcClaim="name + '_delete'">
+          <button *ngIf="formConfig.operations.includes(operations.D)" style="margin-right: 30px" nzShape="circle"
+                  nz-button nzType="default"
+                  nz-popconfirm class="tableBtn"
+                  nzPopconfirmTitle="آیا از {{(name === 'user' ? 'deActive' : 'delete' ) | translator}} این {{name | translator}} مطمئن هستید؟"
+                  (nzOnConfirm)="delete(item?.id)"
+                  nzOkType="danger" nzOkText="{{'yes' | translator}}" nzCancelText="{{'no' | translator}}"
+                  nzPopconfirmPlacement="bottomLeft">
+            <i-feather class="j-danger" name="trash"></i-feather>
+          </button>
+        </ng-container>
+      </ng-container>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<button *ngIf="schema === logic.lookup" style="position: absolute; left: 20px; bottom: 40px" (click)="assignSelection()"
+        nz-button nzType="default" class="primaryBtn">
+  <i-feather name="save"></i-feather>&nbsp;
+  {{'confirm' | translator}}
+</button>

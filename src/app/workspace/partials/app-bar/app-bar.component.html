@@ -1,0 +1,41 @@
+<div class="start">
+    <button nz-button nzType="link" (click)="humburgerClick.emit()">
+      <i-feather name="menu"></i-feather>
+    </button>
+    <div id="divActiveSubsystem">
+      زیرسامانه انتخاب شده:
+      {{activeSubsystemName ? activeSubsystemName : 'همه زیرسامانه ها'}}
+    </div>
+</div>
+
+<div class="end">
+  <ng-container *ngIf="!compactView">
+
+  </ng-container>
+
+  <a class="user" nz-dropdown [nzDropdownMenu]="menu" nzTrigger="hover">
+    <ng-container *ngIf="!compactView">
+      <span class="user-name">{{userFullName$ | async}}</span>
+    </ng-container>
+
+    <div class="user-image-bg j-bg-primary">
+      <i-feather name="user" class="user-image"></i-feather>
+    </div>
+  </a>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item *rbcClaim="'user_update'" (click)="goToUserCrud()">
+        <i-feather name="user"></i-feather>&nbsp;حساب کاربری
+      </li>
+      <li nz-menu-item (click)="gotToChangePassword()">
+        <i-feather name="key"></i-feather>&nbsp;تغییر رمز عبور
+      </li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item nzDanger (click)="onSignoutClick()">
+        <i-feather name="log-out"></i-feather>&nbsp;
+        خروج
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</div>

@@ -1,0 +1,128 @@
+<div class="header">
+  <img src="assets/img/rayan-bourse.svg" class="seo-logo" alt="seo-logo" width="80" height="80"
+       [class.small-logo]="!expanded">
+  <p class="seo-title" *ngIf="expanded">زیرسامانه مدیریت کاربران</p>
+</div>
+
+<ul
+  nz-menu
+  nzMode="inline"
+  [nzTheme]="theme"
+  [nzInlineCollapsed]="!expanded"
+  class="menu">
+
+  <!-- <li nz-menu-group nzTitle="سامانه">
+    <ul> -->
+  <li *rbcClaim="'subsystem_search'" nz-menu-item nzMatchRouter>
+    <a routerLink="mng/subsystem"></a>
+    <i-feather name="database" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">زیرسامانه ها</span>
+  </li>
+  <li nz-menu-item nzMatchRouter *rbcClaim="'action_search'">
+    <a routerLink="mng/action"></a>
+    <i-feather name="server" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">سرویس ها</span>
+  </li>
+  <li nz-menu-item nzMatchRouter *rbcClaim="'permission_search'">
+    <a routerLink="mng/permission"></a>
+    <i-feather name="check-square" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">قابلیت های سامانه</span>
+  </li>
+  <li nz-menu-item nzMatchRouter *rbcClaim="'role_search'">
+    <a routerLink="mng/role"></a>
+    <i-feather name="user-check" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">نقش ها</span>
+  </li>
+  <li nz-menu-item nzMatchRouter *rbcClaim="'group_search'">
+    <a routerLink="mng/group"></a>
+    <i-feather name="users" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">گروه های کاربری</span>
+  </li>
+  <li nz-menu-item nzMatchRouter *rbcClaim="'user_search'">
+    <a routerLink="mng/user"></a>
+    <i-feather name="user" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">کاربران</span>
+  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <li nz-menu-item nzMatchRouter>
+    <a [routerLink]="['profile']"></a>
+    <i-feather name="user" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">حساب کاربری</span>
+  </li> -->
+  <!-- </ul>
+</li> -->
+
+  <!-- <li nz-menu-group [nzTitle]="expanded ? 'سایر' : ''">
+    <ul>
+      <li nz-menu-item nzMatchRouter>
+        <a [routerLink]="['terms']"></a>
+        <i-feather name="check-square" class="menu-item-icon"></i-feather>
+        <span *ngIf="expanded">توافق نامه</span>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a [routerLink]="['contact']"></a>
+        <i-feather name="phone-call" class="menu-item-icon"></i-feather>
+        <span *ngIf="expanded">تماس با ما</span>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a [routerLink]="['about']"></a>
+        <i-feather name="help-circle" class="menu-item-icon"></i-feather>
+        <span *ngIf="expanded">درباره سامانه</span>
+      </li>
+    </ul>
+  </li> -->
+
+
+  <!-- <ng-container *showPermission="{claims: ['role:sysuser']}">
+    <li *ngIf="expanded" nz-menu-group nzTitle="مدیریت"></li>
+    <li nz-menu-item>
+      <a [routerLink]="['applicant']"></a>
+      <i-feather name="edit" class="menu-item-icon"></i-feather>
+      <span *ngIf="expanded">متقاضیان</span>
+    </li>
+    <li nz-menu-item>
+      <a [routerLink]="['user']"></a>
+      <i-feather name="user" class="menu-item-icon"></i-feather>
+      <span *ngIf="expanded">کاربران</span>
+    </li>
+  </ng-container>
+
+  <ng-container *showPermission="{claims: ['role:applicant']}">
+    <li *ngIf="expanded" nz-menu-group nzTitle="پیگیری"></li>
+    <li nz-menu-item>
+      <a [routerLink]="['request-tracking']"></a>
+      <i-feather name="trending-up" class="menu-item-icon"></i-feather>
+      <span *ngIf="expanded">پیگیری درخواست</span>
+    </li>
+  </ng-container>
+
+  <li nz-menu-item>
+    <a [routerLink]="['faq']"></a>
+    <i-feather name="help-circle" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">پرسش های متداول</span>
+  </li>
+  <li nz-menu-item>
+    <a [routerLink]="['help']"></a>
+    <i-feather name="map" class="menu-item-icon"></i-feather>
+    <span *ngIf="expanded">راهنما</span>
+  </li> -->
+</ul>
+
+<div class="footer" *ngIf="expanded">
+
+</div>
